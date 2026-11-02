@@ -4,9 +4,9 @@
 list内存不同
 
 ```python
-sys.getsizeof([0] * 3);  # 80
-sys.getsizeof([0, 0, 0]);  # 120
-sys.getsizeof([0 for _ in range(3)]);  # 88
+sys.getsizeof([0] * 3)  # 80
+sys.getsizeof([0, 0, 0])  # 120
+sys.getsizeof([0 for _ in range(3)])  # 88
 ```
 
 为什么None一定用is比较
@@ -39,5 +39,5 @@ class Position:
         return hash((self.x, self,y))
 
     def __eq__(self, other):
-        return self.x == other.x & self.y == other.y
+        return self.x == other.x and self.y == other.y
 ```

@@ -99,13 +99,11 @@ ADD (
 
 -- 修改
 ALTER TABLE tb_name
-MODIFY (
-  colomn datatype [DEFAULT expr]...
-);
+MODIFY colomn datatype [DEFAULT expr];  -- 一次只能修改一列，多列需写多个MODIFY子句
 
 -- 删除
 ALTER TABLE tb_name
-DROP (colomn);
+DROP COLUMN colomn;
 
 -- 查看表结构
 DESC tb_name;
@@ -272,7 +270,7 @@ SELECT CASE WHEN col IS NULL THEN 0 ELSE col END;
 多表查询的条件不能少于（表的个数-1），否则会出现笛卡尔积
 
 ```
-SELECT * worker.ename AS '职员', boss.ename AS '上司'
+SELECT worker.ename AS '职员', boss.ename AS '上司'
 FROM worker, boss
 WHERE worker.mgr = boss.empno;
 ```
@@ -379,7 +377,7 @@ SELECT ename, age FROM emp WHERE age<30;
 - 需要给表取别名，列名不明确也可以给列取别名
 
 ```
-SELECT * worker.ename AS '职员', boss.ename AS '上司'
+SELECT worker.ename AS '职员', boss.ename AS '上司'
 FROM emp worker, emp boss
 WHERE worker.mgr = boss.empno;
 ```

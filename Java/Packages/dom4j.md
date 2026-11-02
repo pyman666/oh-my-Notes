@@ -3,7 +3,7 @@ XML解析可以分为：DOM解析、SAX解析：
 
 - dom（Document Object Model）是w3c组织推荐的处理xml的方式；
 
-- sax（Sample API for XML）不是官方标准，但它是xml社区事实上的标准，几乎所有xml解析器都支持；
+- sax（Simple API for XML）不是官方标准，但它是xml社区事实上的标准，几乎所有xml解析器都支持；
 
 XML解析器：Crimson、Xerces、Aelfred2等；
 
@@ -117,8 +117,8 @@ class MyHandler extends DefaultHandler(
 
   private boolean isName = false;
 
-  // 发现文档开始
-  public void startDocument(char[] ch, int start, int length) {
+  // 发现文档开始（startDocument无参数）
+  public void startDocument() throws SAXException {
     super.startDocument();
   }
 
@@ -132,7 +132,7 @@ class MyHandler extends DefaultHandler(
   // 发现xml文件中的文本
   public void characters(char[] ch, int start, int length) {
     String context = new String(ch, start, length);
-    if ( context.trim().equals("")  && isName ) {
+    if ( !context.trim().equals("")  && isName ) {
       System.out.println(context);
     }
     isName = false;

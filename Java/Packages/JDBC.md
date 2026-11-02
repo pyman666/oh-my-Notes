@@ -175,7 +175,7 @@ for (Actor actor: list) {}
 Actor actor = queryRunner.query(conn, sql, new BeanHandler<>(Actor.class), 1);
 if (actor != null) {}
 // 单行单列
-Object obj = queryRunner.query(conn, sql, new ScalarHandler<>(Actor.class), 1);
+Object obj = queryRunner.query(conn, sql, new ScalarHandler<>(), 1);  // ScalarHandler只取结果集第一行第一列的单值，不需要传实体类
 if (obj != null) {}
 
 // DML

@@ -429,11 +429,7 @@ public interface UserMapper {
       (null, #{user.name}, #{user.age})
     </foreach>
 
-    <!--法二-->
-    delete from t_user where
-    <foreach collection="ids" item="id" separator="or">
-      id = #{id}
-    </foreach>
+    <!--批量插入一般只有法一的多值INSERT一种常规写法-->
 
   </insert>
 </mapper>

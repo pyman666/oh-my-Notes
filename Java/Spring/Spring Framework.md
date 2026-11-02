@@ -73,19 +73,23 @@ BeanFactory容器中bean的生命周期简洁一些，ApplicationContext容器�
 
 6. 若有`BeanPostProcessor`和bean关联，则他们的`postProcessBeforeInitialization`方法被调用；
 
-7. 若bean实现了`InitializingBean`接口，`afterPropertiesSet`方法将被调用；
+7. 若bean的方法加了注解`@PostConstruct`，则其将被调用；
 
-8. 若配置了自己的初始化方法`init-method`，或加了注解`@PostConstruct`，则其将被调用；
+8. 若bean实现了`InitializingBean`接口，`afterPropertiesSet`方法将被调用；
 
-9. 若有`BeanPostProcessor`和bean关联，则他们的`postPorcessorAfterInitialization`方法被调用；
+9. 若配置了自己的初始化方法`init-method`，则其将被调用；
+
+10. 若有`BeanPostProcessor`和bean关联，则他们的`postProcessAfterInitialization`方法被调用；
 
 如此，bean就可以使用了；
 
 当容器关闭时：
 
-1. 若bean实现了`DisposableBean`接口，调用其`destroy`方法；
+1. 若bean的方法加了注解`@PreDestroy`，则其将被调用；
 
-2. 若配置了自己的销毁方法`destroy-method`，或加了注解`@PreDestroy`，则其将被调用；
+2. 若bean实现了`DisposableBean`接口，调用其`destroy`方法；
+
+3. 若配置了自己的销毁方法`destroy-method`，则其将被调用；
 ```xml
 <beans xmlns="">
   <bean id="personService" class="com.service.PersonService" init-method="init" destroy-method="mydestroy">
@@ -109,7 +113,7 @@ public class PersonService implements BeanNameAware, BeanFactoryAware, Applicati
         System.out.println("bean factory is :" + arg0);
     }
 
-    public void setApplicationContext(BeanFactory arg0) {
+    public void setApplicationContext(ApplicationContext arg0) {
         System.out.println("bean factory is :" + arg0);
     }
 
@@ -132,12 +136,12 @@ public class PersonService implements BeanNameAware, BeanFactoryAware, Applicati
 ```
 ```java
 public class MyBeanPostProcessor implements BeanPostProcessor {
-    public Object BeanPostProcessAfterInitialization(Object arg0, String arg1) {
+    public Object postProcessAfterInitialization(Object arg0, String arg1) {
         System.out.println("after...");
         return arg0;  // arg0其实就是personService
     }
 
-    public Object BeanPostProcessBeforeInitialization(Object arg0, String arg1) {
+    public Object postProcessBeforeInitialization(Object arg0, String arg1) {
         System.out.println("before...");
         return arg0;
     }
@@ -349,7 +353,7 @@ AOP（Aspect Oriented Programming）面向切面编程，针对所有或一类�
 | 前置通知 | MethodBeforeAdvice | 在目标方法调用前调用 |
 | 后置通知 | AfterRetumingAdvice | 在目标方法调用后调用 |
 | 异常通知 | ThrowsAdvice | 当目标方法报错时调用 |
-| 引入通知 | NameMatchMethodPointcutAdvisor | 自定义切入点 |
+| 引入通知 | DelegatingIntroductionInterceptor | 为类添加新方法和属性（配合DefaultIntroductionAdvisor使用） |
 需求：调用TestService的sayHello(Test1ServiceInterface)、sayBye(Test2ServiceInterface)方法时完成日志记录，其中前置通知只针对sayHello：
 ```java
 public class MyMethodBeforeAdvice implements MethodBeforeAdvice {
@@ -363,7 +367,7 @@ public class MyMethodBeforeAdvice implements MethodBeforeAdvice {
 
 public class MyAfterReturningAdvice implements AfterReturningAdvice {
     // returnValue: method的返回值，如果有的话
-    public void before(Object returnValue, Method method, Object[] args, Object target) {
+    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) {
         System.out.println("after...");
     }
 }
@@ -377,7 +381,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
     }
 }
 
-public class MyThrowAdvice implements ThrowAdvice {
+public class MyThrowAdvice implements ThrowsAdvice {
     public void afterThrowing(Method method, Object[] args, Object target, Exception e) {
         System.out.println("throw..." + e.getMessage());
     }
@@ -402,7 +406,7 @@ public class MyThrowAdvice implements ThrowAdvice {
    <property name="advice" ref="myMethodBeforeAdvice"/>
    <property name="mappedNames">
      <list>
-       <value>sayHello</value>  <!--可以用正则-->
+       <value>sayHello</value>  <!--只支持*通配符（如sayH*），不支持正则-->
      </list>
    </property>
   </bean>

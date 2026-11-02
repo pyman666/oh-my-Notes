@@ -48,7 +48,12 @@ public class HelloController {
     @Autowired
     private Environment env;
 
-    private String address1 = env.getProperty("address[0]");
+    private String address1;  // 不能在字段初始化器里用env，此时还没有注入完成
+
+    @PostConstruct  // 注入完成后再从环境变量取值
+    public void initAddress() {
+        address1 = env.getProperty("address[0]");
+    }
 
     @Autowired
     private  Person person;

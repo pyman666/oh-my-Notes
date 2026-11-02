@@ -153,8 +153,8 @@ public class ServletConfig extends AbstractAnnotationConfigDispatcherServletInit
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{SpringMvcConfig.class};
     }
-    protected Class<?>[] getServletMappings() {
-        return new Class[]{"/"};
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
     }
 }
 ```
@@ -286,7 +286,7 @@ public class SpringMvcSupport extends WebMvcConfigurationSupport {
     }
 
     @Override  // 拦截请求
-    protected void addInterceptors(ResourceHandlerRegistry registry) {
+    protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInceptor(interceptor).addPathPatterns("/users", "/users/*");
     }
 }
@@ -303,12 +303,12 @@ public class SpringMvcConfig implements WebMvcConfigurer {
     private ProjectInterceptor interceptor;
 
     @Override  // 上文放行静态请求
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**").addResourceLocations("/css/");
     }
 
     @Override  // 拦截请求
-    protected void addInterceptors(ResourceHandlerRegistry registry) {
+    public void addInterceptors(InterceptorRegistry registry) {
         registry.addInceptor(interceptor).addPathPatterns("/users", "/users/*");
     }
 }
@@ -324,7 +324,7 @@ public class ProjectInterceptor implements HandlerInterceptor {
     @Override  // 多个拦截器先放的先运行
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // request.getHeader("Content-Type")...
-        // response.getCookie()...
+        // request.getCookies()...（读Cookie是请求侧操作）
 
         //HandlerMethod hm = (HandlerMethod) handler;  被调用的处理器对象，本质上是一个方法
         //hm.getMethod()...  对反射技术中的Method对象进行了再包装
@@ -338,7 +338,7 @@ public class ProjectInterceptor implements HandlerInterceptor {
     }
 
     @Override  // 先放后运行，相应拦截器pre true了就运行
-    public void afterHandle(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) throws Exception {
         // e controller表现层异常
     }
 

@@ -64,7 +64,7 @@ domain对象中的属性，只有配置到对象关系映射文件，才会被hi
 
 有些属性可以不配置：
 
-- table：默认以类名小写作为表名；
+- table：默认以类名（保持原样大小写）作为表名；
 
 - type：根据类的属性类型自动选择
 
@@ -112,7 +112,7 @@ domain对象中的属性，只有配置到对象关系映射文件，才会被hi
 
 - `create-drop`：在显式关闭SessionFactory时，将drop掉数据库中的schema；
 
-- `validate`：每次插入数据前都会验证数据库中的表结构和hbm文件的结构是否一致
+- `validate`：在SessionFactory构建（应用启动）时验证数据库中的表结构和hbm文件的结构是否一致
 ```xml
 <hibernate-configuration>
   <session-factory>
@@ -170,7 +170,7 @@ Configuration cfg2 = new Configuration().configure("hb.cfg.xml");  // 自己指�
 
 SessionFactory接口负责初始化Hibernate，它充当数据存储源的代理，使用工厂模式创建Session对象；
 
-SessionFactory可以缓存sql语句和数据（session级缓存）；
+SessionFactory可以缓存sql语句和数据（工厂级（二级）缓存）；
 
 SessionFactory是**重量级**的（占资源，一般用**单例**），通常一个数据库一个SessionFactory。多个数据库时，可以为每个数据库指定一个SessionFactory。
 ```jsx
@@ -335,7 +335,7 @@ tx.rollback();  // 回滚事务
 
 Query负责执行各种数据查询功能，可以完成更加复杂的查询任务，支持Hibernate特有的HQL语句和SQL语句。
 ```java
-Query query = session.createQuery("from Student where id=10");  // from domain而不是表名，id可以是domain属性（推荐），也可以表column
+Query query = session.createQuery("from Student where id=10");  // from domain而不是表名，where里只能写domain属性（不能写表column），属性名与列名相同时容易混淆
 List<Student> students = query.list();  // 会自动封装成对应的domain对象
 ```
 ## Criteria

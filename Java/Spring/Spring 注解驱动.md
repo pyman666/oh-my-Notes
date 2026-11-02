@@ -348,7 +348,7 @@ public class MyProcessor implements BeanPostProcessor {
     }
 
     @Override  // 初始化后工作
-    public void postProcessAfterInitialization(Objcet bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
 }
