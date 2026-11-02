@@ -207,7 +207,7 @@ def modify_password():
 
 `request.url_root`：域名，https://127.0.0.1:5000/
 
-`request. host_root`：域名，https://127.0.0.1:5000/
+`request. host_url`：域名，https://127.0.0.1:5000/
 
 `request.host`：127.0.0.1:5000
 
@@ -269,7 +269,7 @@ res.headers["xxx"] = "xxx"
 
 ### signal
 
-flask中的信号基于blinker，让开发者可以在请求过程中定制一些用户行为。当程序执行到某个位置，自动触发某些操作，异步执行。
+flask中的信号基于blinker，让开发者可以在请求过程中定制一些用户行为。当程序执行到某个位置，自动触发某些操作。信号触发时会同步调用所有接收器，作用是解耦，并不是异步执行。
 
 ```python
 from flask import Flask, signals
