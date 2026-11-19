@@ -140,11 +140,6 @@ LazyGit 是独立的 Git TUI 界面，下面是常用的 TUI 操作：
 | `n`          | 新建分支          |
 
 
-**最推荐记住&#x20;**`Tab`**&#x20;和&#x20;**`Shift+Tab`，在不同面板之间循环切换。
-
-注意：`h/j/k/l` 在 LazyGit 里也承担列表导航和面板切换功能，具体取决于当前焦点和布局。
-
-
 # **5. 文件搜索与模糊查找**
 
 LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snacks Picker。
