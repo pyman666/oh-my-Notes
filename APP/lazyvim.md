@@ -1,7 +1,33 @@
+
+# 常用功能
+
 LazyVim 默认使用 `<Space>` 作为 Leader 键。下面按日常开发场景整理，主要是文件树、窗口、Buffer、Git、搜索、LSP。
 
+下面是一些最基本的操作：
 
-# **1. 文件树（Neo-tree）**
+| 快捷键 | 功能 |
+| --- | --- |
+| `<leader>l`  | 打开 Lazy 插件管理器  |
+| `<leader>L`  | 查看 LazyVim 更新日志 |
+| `<leader>qq` | 退出 Neovim           |
+| `:qa`        | 退出 Neovim           |
+| `<C-/>`      | 打开/关闭终端         |
+| `<leader>ft` | 打开终端              |
+| `<leader>fT` | 打开根目录终端        |
+
+
+## 一个特别有用的功能：Which-Key
+
+强烈建议记住：LazyVim 不需要把所有快捷键背下来。直接按：
+
+- `<leader>` 查看所有 Leader 快捷键。
+- `<leader>sk` 搜索所有快捷键（Which-Key / Keymaps）。
+- `<leader>?` 某些 LazyVim 版本或配置中可以查看帮助，具体以实际映射为准。
+
+还有一个特别实用的技巧：**按下 Space 后先别按其他键，稍等一下。**LazyVim 默认集成 Which-Key，会弹出快捷键分组提示，告诉你接下来能按什么。
+
+
+## 文件树（Neo-tree）
 
 LazyVim 默认文件树插件是 neo-tree.nvim。
 
@@ -26,7 +52,7 @@ LazyVim 默认文件树插件是 neo-tree.nvim。
 注意：Neo-tree 的快捷键和普通 Vim 模式下的快捷键不是一回事，进入文件树后才能使用。
 
 
-# **2. 窗口切换与分屏**
+## 窗口切换与分屏
 
 LazyVim 默认把 `<leader>w` 作为 Windows（窗口管理）快捷键组，而且它通过 Which-Key 映射了一批 Vim 原生的 `Ctrl+w` 操作。
 
@@ -48,14 +74,15 @@ LazyVim 默认把 `<leader>w` 作为 Windows（窗口管理）快捷键组，而
 
 | 快捷键 | 功能 |
 | --- | --- |
-| `<C-↑>` | 增加高度 |
-| `<C-↓>` | 减少高度 |
-| `<C-←>` | 减少宽度 |
-| `<C-→>` | 增加宽度 |
 | `<C-h>` | 左侧窗口 |
 | `<C-j>` | 下方窗口 |
 | `<C-k>` | 上方窗口 |
 | `<C-l>` | 右侧窗口 |
+
+| `<C-↑>` | 增加高度 |
+| `<C-↓>` | 减少高度 |
+| `<C-←>` | 减少宽度 |
+| `<C-→>` | 增加宽度 |
 
 | `:split`     | 水平分屏    |
 | `:vsplit`    | 垂直分屏    |
@@ -66,7 +93,7 @@ LazyVim 默认把 `<leader>w` 作为 Windows（窗口管理）快捷键组，而
 | `<C-w> hjkl` | 上下左右窗口|
 
 
-# **3. Buffer 和文件切换**
+## Buffer 和文件切换
 
 LazyVim 默认使用 Bufferline 显示打开的文件标签。这里要区分：
 
@@ -88,7 +115,123 @@ LazyVim 默认使用 Bufferline 显示打开的文件标签。这里要区分：
 | `<leader>bp` | 固定当前 Buffer                         |
 
 
-# **4. Git 操作**
+## Tab 管理
+
+这里的 Tab 是 Neovim 的标签页，不是 Buffer。
+
+| 快捷键 | 功能 |
+| --- | --- |
+| `<leader><tab><tab>` | 新建 Tab         |
+| `<leader><tab>]`     | 下一个 Tab       |
+| `<leader><tab>[`     | 上一个 Tab       |
+| `<leader><tab>d`     | 关闭当前 Tab     |
+| `<leader><tab>o`     | 关闭其他 Tab     |
+| `<leader><tab>f`     | 跳到第一个 Tab   |
+| `<leader><tab>l`     | 跳到最后一个 Tab |
+
+
+## Quickfix / Location List
+
+这两个是 Vim/Neovim 原生功能，LazyVim 提供快捷键入口。
+
+| 快捷键 | 功能 |
+| --- | --- |
+| `<leader>xq` | 打开 Quickfix 列表   |
+| `<leader>xl` | 打开 Location List   |
+| `]q`         | 下一个 Quickfix 项   |
+| `[q`         | 上一个 Quickfix 项   |
+
+
+# 代码编辑
+
+LazyVim 保留了绝大多数 Vim 原生操作，但也通过插件和快捷键映射改变了部分行为。
+
+| 操作 | 功能 |
+| --- | --- |
+| `<C-s>` | 保存文件（普通/插入模式均可）  |
+| `<Esc>` | 退出当前模式，同时清除搜索高亮 |
+
+
+## 文本对象增强：mini.ai
+
+原生 Vim 有 `iw`、`aw`、`ip`、`ap` 等文本对象，LazyVim 通过 `mini.ai` 扩展了更多语法结构识别。
+
+| 操作 | 功能 |
+| --- | --- |
+| `vaf` | 选择整个函数 |
+| `vif` | 选择函数内部 |
+| `vac` | 选择整个类   |
+| `vic` | 选择类内部   |
+| `vaa` | 选择整个参数 |
+| `via` | 选择参数内部 |
+
+这些是 mini.ai 的典型文本对象，具体支持情况取决于 Treesitter 配置。例如：
+
+- `daf`：删除整个函数
+- `yif`：复制函数内部
+- `caa`：修改当前参数
+
+
+## 自动括号与引号：mini.pairs
+
+输入时自动补全成对符号。这是输入行为增强，不需要额外快捷键。
+
+
+## Flash：快速定位
+
+| 操作 | 功能 |
+| --- | --- |
+| `s`         | 屏幕范围快速跳转                |
+| `S`         | Treesitter 结构跳转             |
+| `r`         | Operator-pending 模式下远程跳转 |
+| `R`         | Treesitter 范围搜索             |
+| `<C-space>` | Treesitter 增量选择             |
+
+
+## 移动与调整文本
+
+| 操作 | 功能 |
+| --- | --- |
+| `<A-j>`          | 当前行向下移动     |
+| `<A-k>`          | 当前行向上移动     |
+| Visual + `<A-j>` | 选中行向下移动     |
+| Visual + `<A-k>` | 选中行向上移动     |
+| `>>`             | 向右缩进           |
+| `<<`             | 向左缩进           |
+| `=`              | 自动缩进           |
+| Visual + `>`     | 缩进并保持选区     |
+| Visual + `<`     | 反向缩进并保持选区 |
+
+后两项是 LazyVim 对原生缩进行为的增强。
+
+
+## Surround：包围符号编辑（需启用插件）
+
+如果启用了 `mini.surround`，可以使用：
+
+| 操作 | 功能 |
+| --- | --- |
+| `sa{motion}{char}` | 添加包围符号     |
+| `sd{char}`         | 删除包围符号     |
+| `sr{old}{new}`     | 替换包围符号     |
+| `sf{char}`         | 查找右侧包围符号 |
+| `sF{char}`         | 查找左侧包围符号 |
+
+
+## Comment：注释增强
+
+LazyVim 默认使用 `mini.comment` 插件提供注释功能（具体取决于 LazyVim 版本）。
+
+| 快捷键 | 功能 |
+| --- | --- |
+| `gc`         | 注释选中区域          |
+| `gcc`        | 注释当前行            |
+| `gco`        | 在下一行添加注释      |
+| `gcO`        | 在上一行添加注释      |
+| `gc{motion}` | 注释指定范围          |
+
+
+# Git 操作
 
 LazyVim 默认集成了 LazyVim Git integration，主要涉及两个插件：
 
@@ -119,16 +262,16 @@ LazyGit 是独立的 Git TUI 界面，下面是常用的 TUI 操作：
 | --- | --- |
 | `<leader>gg` | 打开 LazyGit     |
 | `q`          | 退出 LazyGit     |
+| `?`          | 帮助             |
+| `<Tab>`      | 切换到下一个面板 |
+| `<S-Tab>`    | 切换到上一个面板 |
 | `←` / `h`    | 切换到左侧面板   |
 | `→` / `l`    | 切换到右侧面板   |
 | `↑` / `k`    | 上一个项目       |
 | `↓` / `j`    | 下一个项目       |
-| `<Tab>`      | 切换到下一个面板 |
-| `<S-Tab>`    | 切换到上一个面板 |
 | `1`～`5`     | 直接切换对应面板 |
-| `?`          | 帮助             |
 
-下面是查用的 Git 操作：
+下面是 TUI 查用的 Git 操作：
 
 | 快捷键 | 功能 |
 | --- | --- |
@@ -139,8 +282,21 @@ LazyGit 是独立的 Git TUI 界面，下面是常用的 TUI 操作：
 | `b`          | 切换分支面板      |
 | `n`          | 新建分支          |
 
+下面是其他的 snacks.vim Git 操作：
 
-# **5. 文件搜索与模糊查找**
+| 快捷键 | 功能 |
+| --- | --- |
+| `<leader>gs` | Git Status                  |
+| `<leader>gd` | 查看 Git Diff               |
+| `<leader>gD` | 与远程分支比较 Diff         |
+| `<leader>gl` | Git Log                     |
+| `<leader>gL` | 当前目录 Git Log            |
+| `<leader>gb` | 当前行 Git Blame            |
+| `<leader>gf` | 当前文件历史                |
+| `<leader>gB` | 浏览当前文件对应的 Git 页面 |
+
+
+# 文件搜索与模糊查找
 
 LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snacks Picker。
 
@@ -152,6 +308,8 @@ LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snack
 | `<leader>fb`      | 查找 Buffer       |
 | `<leader>fr`      | 最近打开的文件    |
 | `<leader>fc`      | 查找配置文件      |
+| `<leader>fn`      | 新建文件          |
+
 | `<leader>sg`      | 全局搜索          |
 | `<leader>sw`      | 搜索光标所在单词  |
 | `<leader>sk`      | 搜索快捷键        |
@@ -164,7 +322,7 @@ LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snack
 - `<C-t>`：新 Tab 打开。
 
 
-# **6. LSP 代码导航**
+# LSP 代码导航
 
 这是 LazyVim 最值得使用的部分之一。
 
@@ -176,57 +334,36 @@ LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snack
 | `gI`         | 查找实现          |
 | `gy`         | 跳转类型定义      |
 | `K`          | 查看文档/悬浮信息 |
-| `<leader>ca` | Code Action       |
-| `<leader>cr` | 重命名            |
-| `<leader>cf` | 格式化代码        |
-| `<leader>cd` | 查看当前诊断      |
+| `gK`         | 查看函数签名帮助  |
+
 | `]d`         | 下一个诊断        |
 | `[d`         | 上一个诊断        |
+| `]e`         | 下一个错误        |
+| `]w`         | 下一个警告        |
+
+| `<leader>ca` | Code Action       |
+| `<leader>cr` | 重命名变量等      |
+| `<leader>cf` | 格式化代码        |
+| `<leader>cd` | 查看当前诊断      |
+| `<leader>cl` | 查看 LSP 信息     |
 
 
-# **7. 其他常用功能**
+# UI
 
 | 快捷键 | 功能 |
 | --- | --- |
-| `<leader>l`  | Lazy 插件管理  |
-| `<leader>u`  | UI 设置切换    |
-| `<leader>qq` | 退出 Neovim    |
-| `<leader>fn` | 新建文件       |
-| `<leader>ft` | 打开终端       |
-| `<leader>fT` | 打开根目录终端 |
-| `<leader>ud` | 切换诊断显示   |
-| `<leader>uf` | 切换自动格式化 |
-| `<leader>us` | 切换拼写检查   |
-| `<leader>ut` | 切换透明背景   |
-
-
-# **8. 最重要：查看 LazyVim 全部快捷键**
-
-其实没必要死记硬背。建议记住：
-
-- `<leader>sk` 搜索所有快捷键（Which-Key / Keymaps）。
-- `<leader>?` 某些 LazyVim 版本或配置中可以查看帮助，具体以实际映射为准。
-
-还有一个特别实用的技巧：**按下 Space 后先别按其他键，稍等一下。**LazyVim 默认集成 Which-Key，会弹出快捷键分组提示，告诉你接下来能按什么。
-
-
-## **建议先掌握这 15 个快捷键**
-
-| 快捷键 | 用途 |
-| --- | --- |
-| `<leader>e`       | 文件树        |
-| `<leader><space>` | 文件搜索      |
-| `<leader>fg`      | 全局搜索      |
-| `Ctrl+h/j/k/l`    | 窗口切换      |
-| `<leader> -`      | 水平分屏      |
-| `<leader> \|`     | 垂直分屏      |
-| `H`               | 上一个文件    |
-| `L`               | 下一个文件    |
-| `<leader>bd`      | 关闭文件      |
-| `<leader>gg`      | LazyGit       |
-| `<leader>ghd`     | 查看 Git Diff |
-| `gd`              | 跳转定义      |
-| `gr`              | 查找引用      |
-| `<leader>cr`      | 重命名        |
-| `<leader>l`       | 插件管理      |
+| `<leader>u`  | UI 设置切换           |
+| `<leader>ut` | 切换透明背景          |
+| `<leader>uz` | Zen Mode              |
+| `<leader>uL` | 切换相对行号          |
+| `<leader>uw` | 切换自动换行          |
+| `<leader>uf` | 切换自动格式化        |
+| `<leader>us` | 切换拼写检查          |
+| `<leader>uZ` | 切换窗口放大模式      |
+| `<leader>wm` | 切换窗口放大模式      |
+| `<leader>ud` | 显示/隐藏诊断         |
+| `<leader>ul` | 显示/隐藏行号         |
+| `<leader>ug` | 显示/隐藏缩进参考线   |
+| `<leader>uh` | 显示/隐藏 Inlay Hints |
+| `<leader>ur` | 重绘界面、清除高亮    |
 
