@@ -211,11 +211,11 @@ LazyVim 保留了绝大多数 Vim 原生操作，对于部分操作作了增强�
 
 | 操作 | 功能 |
 | --- | --- |
-| `sa{motion}{char}` | 添加包围符号     |
-| `sd{char}`         | 删除包围符号     |
-| `sr{old}{new}`     | 替换包围符号     |
-| `sf{char}`         | 查找右侧包围符号 |
-| `sF{char}`         | 查找左侧包围符号 |
+| `gsa{motion}{char}` | 添加包围符号     |
+| `gsd{char}`         | 删除包围符号     |
+| `gsr{old}{new}`     | 替换包围符号     |
+| `gsf{char}`         | 查找右侧包围符号 |
+| `gsF{char}`         | 查找左侧包围符号 |
 
 
 ## Comment：注释增强
