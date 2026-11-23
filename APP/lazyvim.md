@@ -1,4 +1,61 @@
 
+# 常用命令
+
+首先要区分几个管理器有什么区别：
+
+| 管理器 | 管理对象 | 例子 |
+| --- | --- | --- |
+| `:Lazy`       | Neovim 插件      | Flash、Treesitter、Which-Key  |
+| `:LazyExtras` | LazyVim 功能组合 | Python 支持、调试、文件浏览器 |
+| `:Mason`      | 外部开发工具     | Pyright、Prettier、Ruff       |
+
+
+## 插件管理：Lazy
+
+| 命令 | 功能 |
+| --- | --- |
+| `<leader>l`     | 打开插件管理界面         |
+| `:Lazy`         | 打开插件管理界面         |
+| `:Lazy sync`    | 安装、更新、清理插件     |
+| `:Lazy update`  | 更新插件                 |
+| `:Lazy install` | 安装缺失插件             |
+| `:Lazy clean`   | 清理不再使用的插件       |
+| `:Lazy check`   | 检查插件更新             |
+| `:Lazy log`     | 查看插件更新日志         |
+| `:Lazy profile` | 查看插件加载性能         |
+| `:Lazy restore` | 恢复锁定文件中的插件版本 |
+| `:Lazy reload`  | 重新加载插件配置         |
+
+
+## Extra 管理：LazyExtras
+
+LazyVim 将很多可选功能打包成 Extra。Extra 不等于单个插件，它通常是一组插件及其配置。
+
+| 命令 | 功能 |
+| --- | --- |
+| `:LazyExtra`  | Extra 插件管理         |
+| `:LazyHealth` | 加载插件并执行健康检查 |
+
+
+## 工具管理：Mason
+
+Mason 是 Neovim 的外部工具管理器。它管理的不是普通 Neovim 插件，而是编辑器依赖的外部程序安装。例如：
+
+- LSP Server：语言服务器
+- Formatter：代码格式化工具
+- Linter：代码检查工具
+- Debugger：调试工具
+
+| 命令 | 功能 |
+| --- | --- |
+| `<leader>cm`              | 打开工具管理界面 |
+| `:Mason`                  | 打开工具管理界面 |
+| `:MasonInstall pyright`   | 安装 Python LSP  |
+| `:MasonUninstall pyright` | 卸载工具         |
+| `:MasonUpdate`            | 更新已安装工具   |
+| `:MasonLog`               | 查看安装日志     |
+
+
 # 常用功能
 
 LazyVim 默认使用 `<Space>` 作为 Leader 键。下面按日常开发场景整理，主要是文件树、窗口、Buffer、Git、搜索、LSP。
@@ -126,8 +183,6 @@ LazyVim 默认使用 Bufferline 显示打开的文件标签。这里要区分：
 | `<leader><tab>[`     | 上一个 Tab       |
 | `<leader><tab>d`     | 关闭当前 Tab     |
 | `<leader><tab>o`     | 关闭其他 Tab     |
-| `<leader><tab>f`     | 跳到第一个 Tab   |
-| `<leader><tab>l`     | 跳到最后一个 Tab |
 
 
 ## Quickfix / Location List
@@ -136,10 +191,10 @@ LazyVim 默认使用 Bufferline 显示打开的文件标签。这里要区分：
 
 | 快捷键 | 功能 |
 | --- | --- |
-| `<leader>xq` | 打开 Quickfix 列表   |
-| `<leader>xl` | 打开 Location List   |
-| `]q`         | 下一个 Quickfix 项   |
-| `[q`         | 上一个 Quickfix 项   |
+| `<leader>xq` | 打开 Quickfix 列表 |
+| `<leader>xl` | 打开 Location List |
+| `]q`         | 下一个 Quickfix 项 |
+| `[q`         | 上一个 Quickfix 项 |
 
 
 # 代码编辑
@@ -205,7 +260,7 @@ LazyVim 保留了绝大多数 Vim 原生操作，对于部分操作作了增强�
 后两项是 LazyVim 对原生缩进行为的增强。
 
 
-## Surround：包围符号编辑（需启用插件）
+## Surround：包围符号编辑
 
 如果启用了 `mini.surround`，可以使用：
 
@@ -224,22 +279,38 @@ LazyVim 默认使用 `mini.comment` 插件提供注释功能（具体取决于 L
 
 | 快捷键 | 功能 |
 | --- | --- |
-| `gc`         | 注释选中区域          |
-| `gcc`        | 注释当前行            |
-| `gco`        | 在下一行添加注释      |
-| `gcO`        | 在上一行添加注释      |
-| `gc{motion}` | 注释指定范围          |
+| `gc{motion}` | 注释指定范围     |
+| `gcc`        | 注释当前行       |
+| `gco`        | 在下一行添加注释 |
+| `gcO`        | 在上一行添加注释 |
 
 
 # Git 操作
 
-LazyVim 默认集成了 LazyVim Git integration，主要涉及两个插件：
+LazyVim 的 Git 工具分工：
 
-- gitsigns.nvim：显示代码行变更。
-- lazygit.nvim：Git 交互管理。
+| 工具 | 主要用途 | 类比 |
+| --- | --- | --- |
+| Snacks Git | Git Log、Blame、文件历史、GitHub 浏览        | Git 历史查询工具   |
+| Gitsigns   | 行级变更、Hunk 操作                          | Git 局部操作工具   |
+| LazyGit    | Commit、Push、Pull、Branch、Rebase、冲突处理 | Git 图形终端客户端 |
+| Fugitive   | 在 Neovim 中执行 Git 操作                    | Git 命令接口       |
+| Diffview   | 查看分支、Commit、文件之间的差异             | Diff 查看器        |
 
+下面是 snacks.vim Git 操作：
 
-## **Gitsigns**
+| 快捷键 | 功能 |
+| --- | --- |
+| `<leader>gs` | Git Status                  |
+| `<leader>gd` | 查看 Git Diff               |
+| `<leader>gD` | 与远程分支比较 Diff         |
+| `<leader>gl` | Git Log                     |
+| `<leader>gL` | 当前目录 Git Log            |
+| `<leader>gb` | 当前行 Git Blame            |
+| `<leader>gf` | 当前文件历史                |
+| `<leader>gB` | 浏览当前文件对应的 Git 页面 |
+
+gitsigns.nvim 主要显示代码行（hunk）变更：
 
 | 快捷键 | 功能 |
 | --- | --- |
@@ -253,52 +324,25 @@ LazyVim 默认集成了 LazyVim Git integration，主要涉及两个插件：
 | `<leader>ghd` | 查看当前文件 Diff    |
 | `<leader>ghb` | 查看当前行 Git Blame |
 
-
-## **LazyGit**
-
-LazyGit 是独立的 Git TUI 界面，下面是常用的 TUI 操作：
+lazygit.nvim 负责交互，有独立的 Git TUI 界面，界面一般有 5 个面板，只要输入面板编号然后输入问号就可查看相关操作。
 
 | 快捷键 | 功能 |
 | --- | --- |
 | `<leader>gg` | 打开 LazyGit     |
 | `q`          | 退出 LazyGit     |
-| `?`          | 帮助             |
+| `?`          | 帮助，查看快捷键 |
 | `<Tab>`      | 切换到下一个面板 |
 | `<S-Tab>`    | 切换到上一个面板 |
+| `1`～`5`     | 直接切换对应面板 |
 | `←` / `h`    | 切换到左侧面板   |
 | `→` / `l`    | 切换到右侧面板   |
 | `↑` / `k`    | 上一个项目       |
 | `↓` / `j`    | 下一个项目       |
-| `1`～`5`     | 直接切换对应面板 |
-
-下面是 TUI 查用的 Git 操作：
-
-| 快捷键 | 功能 |
-| --- | --- |
-| `Space`      | 暂存/取消暂存文件 |
-| `c`          | Commit            |
-| `P`          | Push              |
-| `p`          | Pull              |
-| `b`          | 切换分支面板      |
-| `n`          | 新建分支          |
-
-下面是其他的 snacks.vim Git 操作：
-
-| 快捷键 | 功能 |
-| --- | --- |
-| `<leader>gs` | Git Status                  |
-| `<leader>gd` | 查看 Git Diff               |
-| `<leader>gD` | 与远程分支比较 Diff         |
-| `<leader>gl` | Git Log                     |
-| `<leader>gL` | 当前目录 Git Log            |
-| `<leader>gb` | 当前行 Git Blame            |
-| `<leader>gf` | 当前文件历史                |
-| `<leader>gB` | 浏览当前文件对应的 Git 页面 |
 
 
 # 文件搜索与模糊查找
 
-LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snacks Picker。
+新版 LazyVim starter 默认用 snacks.nvim 当 picker，功能基本都走 `<leader>` 映射和 Lua 函数，很多网上常见的命令不再提供。
 
 | 快捷键 | 功能 |
 | --- | --- |
@@ -311,7 +355,9 @@ LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snack
 | `<leader>fn`      | 新建文件          |
 
 | `<leader>sg`      | 全局搜索          |
-| `<leader>sw`      | 搜索光标所在单词  |
+| `<leader>sc`      | 命令历史          |
+| `<leader>sC`      | 所有命令          |
+| `<leader>sr`      | 查找替换          |
 | `<leader>sk`      | 搜索快捷键        |
 
 搜索结果中通常可以使用：
@@ -328,42 +374,39 @@ LazyVim 默认集成 Telescope.nvim，部分版本或配置也可能使用 Snack
 
 | 快捷键 | 功能 |
 | --- | --- |
-| `gd`         | 跳转定义          |
-| `gD`         | 跳转声明          |
-| `gr`         | 查找引用          |
-| `gI`         | 查找实现          |
-| `gy`         | 跳转类型定义      |
-| `K`          | 查看文档/悬浮信息 |
-| `gK`         | 查看函数签名帮助  |
+| `gd` | 跳转定义          |
+| `gD` | 跳转声明          |
+| `gr` | 查找引用          |
+| `gI` | 查找实现          |
+| `gy` | 跳转类型定义      |
+| `K`  | 查看文档/悬浮信息 |
+| `gK` | 查看函数签名帮助  |
 
-| `]d`         | 下一个诊断        |
-| `[d`         | 上一个诊断        |
-| `]e`         | 下一个错误        |
-| `]w`         | 下一个警告        |
+| `]d` | 下一个诊断 |
+| `[d` | 上一个诊断 |
+| `]e` | 下一个错误 |
+| `]w` | 下一个警告 |
 
-| `<leader>ca` | Code Action       |
-| `<leader>cr` | 重命名变量等      |
-| `<leader>cf` | 格式化代码        |
-| `<leader>cd` | 查看当前诊断      |
-| `<leader>cl` | 查看 LSP 信息     |
+| `<leader>cf` | 格式化代码             |
+| `<leader>cm` | Mason                  |
+| `<leader>ca` | Code Action（需 LSP）  |
+| `<leader>cr` | 重命名变量等（需 LSP） |
 
 
 # UI
 
 | 快捷键 | 功能 |
 | --- | --- |
-| `<leader>u`  | UI 设置切换           |
-| `<leader>ut` | 切换透明背景          |
-| `<leader>uz` | Zen Mode              |
-| `<leader>uL` | 切换相对行号          |
-| `<leader>uw` | 切换自动换行          |
-| `<leader>uf` | 切换自动格式化        |
-| `<leader>us` | 切换拼写检查          |
-| `<leader>uZ` | 切换窗口放大模式      |
-| `<leader>wm` | 切换窗口放大模式      |
-| `<leader>ud` | 显示/隐藏诊断         |
-| `<leader>ul` | 显示/隐藏行号         |
-| `<leader>ug` | 显示/隐藏缩进参考线   |
-| `<leader>uh` | 显示/隐藏 Inlay Hints |
-| `<leader>ur` | 重绘界面、清除高亮    |
+| `<leader>u`  | UI 设置切换         |
+| `<leader>uC` | colorscheme         |
+| `<leader>uz` | Zen Mode            |
+| `<leader>uZ` | Zoom Mode           |
+| `<leader>ul` | 显示/隐藏行号       |
+| `<leader>uL` | 切换相对行号        |
+| `<leader>un` | 显示/隐藏通知       |
+| `<leader>uw` | 切换自动换行        |
+| `<leader>us` | 切换拼写检查        |
+| `<leader>ud` | 显示/隐藏诊断       |
+| `<leader>ug` | 显示/隐藏缩进参考线 |
+| `<leader>ur` | 重绘界面、清除高亮  |
 
